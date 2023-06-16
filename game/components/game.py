@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, FONT_STYLE2,BG_DEFEAT, SKULL
+from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, FONT_STYLE2,BG_DEFEAT, SKULL,SPACEBAR,KEYS
 
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
@@ -109,13 +109,19 @@ class Game:
         start_text = "Press any key to start..."
         try_again = "Press any key to try again..."
 
-        if self.death_count == 1:
+        if self.death_count == 0:
             self.menu.draw(self.screen)
             self.draw_text(info_inicio, (half_screen_width + 10,half_screen_hight-255), 60,(255,255,255))
             self.menu.update_message(info_inicio, 60, (20,20,20))
             self.draw_text(start_text, (half_screen_width + 10,half_screen_hight-180), 20,(20,20,20))
             self.draw_text(start_text, (half_screen_width + 20,half_screen_hight-185), 20,(255,255,255))
-            icon = pygame.transform.scale(ICON, (200,200))
+            icon = pygame.transform.scale(ICON, (300,300))
+            keys = pygame.transform.scale(KEYS, (230,230))
+            spacebar = pygame.transform.scale(SPACEBAR, (230,50))
+            self.draw_text("To move", (half_screen_width - 405, half_screen_hight + 100 ), 20,(255,255,255))
+            self.draw_text("To shoot", (half_screen_width + 400, half_screen_hight + 70 ), 20,(255,255,255))
+
+            
         else:
             self.menu.draw(self.screen)
             soldier_1 = pygame.transform.scale(BG_DEFEAT, (SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -133,8 +139,9 @@ class Game:
             self.screen.blit(skull, (half_screen_width - 45, half_screen_hight - 310 ))
 
             
-        
-        self.screen.blit(icon, (half_screen_width - 150, half_screen_hight - 150 ))
+        self.screen.blit(keys, (half_screen_width - 520, half_screen_hight - 100))
+        self.screen.blit(spacebar, (half_screen_width + 300, half_screen_hight - 20))
+        self.screen.blit(icon, (half_screen_width - 150, half_screen_hight - 100 ))
         self.menu.update(self)
 
 

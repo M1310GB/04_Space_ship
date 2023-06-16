@@ -38,3 +38,5 @@ FONT_STYLE2 = 'ARCADE_R.ttf'
 
 BG_DEFEAT = pygame.image.load(os.path.join(IMG_DIR, "Other/soldiers2.png"))
 SKULL = pygame.image.load(os.path.join(IMG_DIR, "Other/skull.png"))
+KEYS = pygame.image.load(os.path.join(IMG_DIR, "Other/keys.png"))
+SPACEBAR = pygame.image.load(os.path.join(IMG_DIR, "Other/spacebar.png"))
