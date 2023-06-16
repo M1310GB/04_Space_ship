@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, FONT_STYLE2
+from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, FONT_STYLE2,BG_DEFEAT, SKULL
 
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
@@ -30,6 +30,7 @@ class Game:
         self.menu = Menu("Press any key to start...", self.screen)
         
         
+       
 
     def execute(self):
         self.running = True
@@ -100,27 +101,40 @@ class Game:
 
     def show_menu(self):
 
-
-
-        #self.menu.reset_screen_color(self.screen)
         half_screen_hight = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
         
-        info_muerte = "GAME" + "    " + "OVER" 
-        info_inicio = "Press any key to start"
+        info_muerte = "GAME" + "   " + "OVER" 
+        info_inicio = "WAR IN THE SKIES"
+        start_text = "Press any key to start..."
+        try_again = "Press any key to try again..."
 
-        if self.death_count == 0:
-            self.menu.update_message(info_inicio, 30, (255,255,255))
+        if self.death_count == 1:
             self.menu.draw(self.screen)
+            self.draw_text(info_inicio, (half_screen_width + 10,half_screen_hight-255), 60,(255,255,255))
+            self.menu.update_message(info_inicio, 60, (20,20,20))
+            self.draw_text(start_text, (half_screen_width + 10,half_screen_hight-180), 20,(20,20,20))
+            self.draw_text(start_text, (half_screen_width + 20,half_screen_hight-185), 20,(255,255,255))
             icon = pygame.transform.scale(ICON, (200,200))
         else:
-            self.menu.update_message(info_muerte, 90, (255,255,255))
-            self.add_message()
             self.menu.draw(self.screen)
-            icon = pygame.transform.scale(PLAYER_DESTROY, (200,200))
+            soldier_1 = pygame.transform.scale(BG_DEFEAT, (SCREEN_WIDTH,SCREEN_HEIGHT))
+            soldiers_rect = soldier_1.get_rect()
+            self.screen.blit(soldier_1, soldiers_rect)
+            
+
+            self.add_message()
+            self.draw_text(info_muerte, (half_screen_width + 10,half_screen_hight-255), 60,(255,255,255))
+            self.draw_text(f'Score: {self.score}', (163,half_screen_hight + 250),30,(255,255,255))
+            self.draw_text(f'Deaths:{self.death_count}', (163,half_screen_hight + 300),30,(255,255,255))
+            self.draw_text(try_again, (half_screen_width + 20,half_screen_hight-185), 20,(255,255,255))
+            icon = pygame.transform.scale(PLAYER_DESTROY, (300,300))
+            skull = pygame.transform.scale(SKULL, (100,100))
+            self.screen.blit(skull, (half_screen_width - 45, half_screen_hight - 310 ))
+
             
         
-        self.screen.blit(icon, (half_screen_width - 100, half_screen_hight - 150 ))
+        self.screen.blit(icon, (half_screen_width - 150, half_screen_hight - 150 ))
         self.menu.update(self)
 
 
@@ -131,8 +145,16 @@ class Game:
         font = pygame.font.Font(FONT_STYLE2,30)
         text =font.render(f'Score: {self.score}',True,(255,255,255))
         text_rect = text.get_rect()
-        text_rect.center = (100,50)
+        text_rect.center = (150,50)
         self.screen.blit(text,text_rect)
+
+    def draw_text(self,message,position,size,color):
+        font = pygame.font.Font(FONT_STYLE2,size)
+        text =font.render(message,True,color)
+        text_rect = text.get_rect()
+        text_rect.center = (position)
+        self.screen.blit(text,text_rect)
+   
 
     
 
