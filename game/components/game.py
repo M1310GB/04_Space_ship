@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE
+from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE
 
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
@@ -28,6 +28,7 @@ class Game:
         self.score = 0
         self.death_count = 0
         self.menu = Menu("Press any key to start...", self.screen)
+        self.menu_death_info = Menu("Score", self.screen)
 
     def execute(self):
         self.running = True
@@ -88,15 +89,23 @@ class Game:
         self.menu.reset_screen_color(self.screen)
         half_screen_hight = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
+        
+        info_muerte = "GAME OVER" + " " 
 
         if self.death_count == 0:
-            self.menu.draw(self.score)
-        else:
-            self.menu.update_message('New Message')
             self.menu.draw(self.screen)
+            icon = pygame.transform.scale(ICON, (200,200))
+        else:
+            self.menu.update_message(info_muerte, 100)
+            
+
+
+            self.menu.draw(self.screen)
+            icon = pygame.transform.scale(PLAYER_DESTROY, (200,200))
+            
         
-        icon = pygame.transform.scale(ICON, (80,120))
-        self.screen.blit(icon, (half_screen_width -50, half_screen_hight - 150 ))
+        
+        self.screen.blit(icon, (half_screen_width - 100, half_screen_hight - 300 ))
         self.menu.update(self)
 
 
