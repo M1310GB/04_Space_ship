@@ -24,9 +24,23 @@ class Game:
         self.player = Spaceship()
         self.enemy_manager = EnemyManager()
         self.bullet_manager = BulletManager()
-    
-    
+        self.running = False
+        self.score = 0
+        self.death_count = 0
+        #self.menu = Menu("Press any key to start...", self.screen)
+
+        def execute(self):
+            self.running = True
+            while self.running:
+                if not self.playing:
+                    self.show_menu()
+            pygame.display.quit()
+            pygame.quit()
+        
     def run(self):
+        self.enemy_manager.resset()
+        self.score = 0
+        
         self.playing = True
         while self.playing:
             self.events()
@@ -44,7 +58,10 @@ class Game:
 
     def update(self):
         user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
+        self.player.update(user_input,self)
+
+        if user_input[pygame.K_SPACE]:
+            self.player.shoot(self.bullet_manager)
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
 
