@@ -14,6 +14,7 @@ ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/player_plane.png"))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Fondo_ciudad.jpg'))
+BG_2 = pygame.image.load(os.path.join(IMG_DIR, 'Other/pista_17.jpg'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
@@ -33,3 +34,4 @@ ENEMY_4 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_4.png"))
 ENEMY_5 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_5.png"))
 #ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
 FONT_STYLE = 'freesansbold.ttf'
+FONT_STYLE2 = 'ARCADE_N.ttf'
