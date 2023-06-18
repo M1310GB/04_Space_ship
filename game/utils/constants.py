@@ -2,7 +2,7 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Spaceships Game"
+TITLE = "WAR IN THE SKIES"
 SCREEN_HEIGHT = 800
 SCREEN_WIDTH = 1100
 FPS = 50
@@ -11,7 +11,8 @@ IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/player_plane.png"))
 
-SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
+SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield_1.png'))
+FUEL = pygame.image.load(os.path.join(IMG_DIR, 'Other/fuel.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Fondo_ciudad.jpg'))
 BG_2 = pygame.image.load(os.path.join(IMG_DIR, 'Other/pista_17.jpg'))
@@ -20,6 +21,7 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = 'shield'
+SPEED_TYPE = 'SPEED'
 
 SPACESHIP = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/player_plane.png"))
 SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/player_plane_shield.png"))

@@ -6,7 +6,8 @@ from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.bullets.bullet_manager import BulletManager
 from game.components.menu import Menu
-
+from game.components.counter import Counter
+from game.components.power_ups.power_up_manager import PowerUpManager
 
 class Game:
     def __init__(self):
@@ -26,11 +27,19 @@ class Game:
         self.bullet_manager = BulletManager()
         self.running = False
         self.score = 0
+        self.max_score = 0
         self.death_count = 0
         self.menu = Menu("Press any key to start...", self.screen)
+        self.power_up_manager = PowerUpManager()
         
         
-       
+    def max_high(self):
+        if self.score > self.max_score:
+            self.max_score = self.score
+
+        else:
+            self.max_score = self.max_score
+
 
     def execute(self):
         self.running = True
@@ -49,6 +58,14 @@ class Game:
             self.update()
             self.draw()
             
+    def reset(self):
+        
+        self.player.reset()
+        self.bullet_manager.reset()
+        self.enemy_manager.reset()
+        self.power_up_manager.reset()
+
+
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -61,6 +78,7 @@ class Game:
 
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
+        self.power_up_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -71,9 +89,21 @@ class Game:
         self.enemy_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
         self.draw_score()
+        self.power_up_manager.draw(self.screen)
+        self.draw_power_up_time()
 
         pygame.display.update()
         pygame.display.flip()
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_time_up - pygame.time.get_ticks()) / 1000,2)
+            if time_to_show >= 0:
+                self.menu.draw(self.screen, f"{self.player.power_up_type.capitalize()} is enabled for {time_to_show} in seconds", 500,50, (255,255,255))
+            else:
+                self.player.has_power_up = False
+                self.player.power_time_up = DEFAULT_TYPE
+                self.player.set_image()
 
     def draw_background(self):
         image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -88,16 +118,16 @@ class Game:
         self.y_pos_bg = self.y_pos_bg + self.game_speed
 
 
-    def show_death_info(self):
-        self.menu_death_info.update_message("Score: {}".format(self.score), 50, (255, 255, 255))
-        self.menu_death_info.draw(self.screen)
-        pygame.display.update()
+    # def show_death_info(self):
+    #     self.menu_death_info.update_message("Score: {}".format(self.score), 50, (255, 255, 255))
+    #     self.menu_death_info.draw(self.screen)
+    #     pygame.display.update()
 
-    def add_message(self):
-        self.font = pygame.font.Font(FONT_STYLE2, 10)
-        self.text = self.font.render("Score: {}".format(self.score),True,(255, 255, 255))
-        self.text_rect = self.text.get_rect()
-        self.text_rect.center =(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 2 ) - 50)
+    # def add_message(self):
+    #     self.font = pygame.font.Font(FONT_STYLE2, 10)
+    #     self.text = self.font.render("Score: {}".format(self.score),True,(255, 255, 255))
+    #     self.text_rect = self.text.get_rect()
+    #     self.text_rect.center =(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 2 ) - 50)
 
     def show_menu(self):
 
@@ -109,7 +139,7 @@ class Game:
         start_text = "Press any key to start..."
         try_again = "Press any key to try again..."
 
-        if self.death_count == 0:
+        if self.death_count == 0: #pantalla de inicio
             self.menu.draw(self.screen)
             self.draw_text(info_inicio, (half_screen_width + 10,half_screen_hight-255), 60,(255,255,255))
             self.menu.update_message(info_inicio, 60, (20,20,20))
@@ -118,35 +148,40 @@ class Game:
             icon = pygame.transform.scale(ICON, (300,300))
             keys = pygame.transform.scale(KEYS, (230,230))
             spacebar = pygame.transform.scale(SPACEBAR, (230,50))
+
+            #indicadores de movimiento
             self.draw_text("To move", (half_screen_width - 405, half_screen_hight + 100 ), 20,(255,255,255))
             self.draw_text("To shoot", (half_screen_width + 400, half_screen_hight + 70 ), 20,(255,255,255))
+            self.screen.blit(keys, (half_screen_width - 520, half_screen_hight - 100))
+            self.screen.blit(spacebar, (half_screen_width + 300, half_screen_hight - 20))
 
             
-        else:
+        else: #pantalla de muerte
             self.menu.draw(self.screen)
             soldier_1 = pygame.transform.scale(BG_DEFEAT, (SCREEN_WIDTH,SCREEN_HEIGHT))
             soldiers_rect = soldier_1.get_rect()
             self.screen.blit(soldier_1, soldiers_rect)
             
-
-            self.add_message()
+            #textos finales
             self.draw_text(info_muerte, (half_screen_width + 10,half_screen_hight-255), 60,(255,255,255))
+            self.draw_text("you have been captured", (half_screen_width , half_screen_hight - 150 ), 15,(50,0,0))
             self.draw_text(f'Score: {self.score}', (163,half_screen_hight + 250),30,(255,255,255))
+            self.draw_text(f'Highest Score: {self.max_score}', (240,half_screen_hight + 200),25,(255,255,255))
             self.draw_text(f'Deaths:{self.death_count}', (163,half_screen_hight + 300),30,(255,255,255))
-            self.draw_text(try_again, (half_screen_width + 20,half_screen_hight-185), 20,(255,255,255))
+            self.draw_text(try_again, (half_screen_width + 40,half_screen_hight-185), 20,(255,255,255))
             icon = pygame.transform.scale(PLAYER_DESTROY, (300,300))
             skull = pygame.transform.scale(SKULL, (100,100))
             self.screen.blit(skull, (half_screen_width - 45, half_screen_hight - 310 ))
+            self.reset()
 
             
-        self.screen.blit(keys, (half_screen_width - 520, half_screen_hight - 100))
-        self.screen.blit(spacebar, (half_screen_width + 300, half_screen_hight - 20))
         self.screen.blit(icon, (half_screen_width - 150, half_screen_hight - 100 ))
         self.menu.update(self)
 
 
     def update_score(self):
         self.score +=1
+        self.max_high()
 
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE2,30)

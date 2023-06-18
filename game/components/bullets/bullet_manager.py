@@ -1,4 +1,5 @@
 import pygame
+from game.utils.constants import SHIELD_TYPE, SPACESHIP
 
 class BulletManager:
     def __init__(self):
@@ -12,9 +13,12 @@ class BulletManager:
 
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == "enemy":
                 self.enemy_bullets.remove(bullet)
-                game.playing = False
-                game.death_count += 1
-                pygame.time.delay(1000)
+                if game.player.power_up_shield_active != True:
+                    game.playing = False
+                    game.death_count += 1
+                    pygame.time.delay(500)
+                if game.player.power_time_up == 0:
+                            game.player.set_image((90,90), SPACESHIP)
                 break
 
             for bullet in self.bullets:
@@ -41,3 +45,7 @@ class BulletManager:
             self.enemy_bullets.append(bullet)
         elif bullet.owner == "player" and len(self.bullets) < 1:
             self.bullets.append(bullet)
+
+    def reset(self):
+        self.bullets = []
+        self.enemy_bullets = []

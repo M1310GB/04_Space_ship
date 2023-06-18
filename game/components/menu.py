@@ -16,11 +16,6 @@ class Menu:
         self.text_rect = self.text.get_rect()
         self.text_rect.center =(self.HALF_SCREEEN_WIDTH, self.HALF_SCREEEN_HEIGHT)
 
-        self.font1 = pygame.font.Font(FONT_STYLE2, 30)
-        self.text1 = self.font.render(message, True, (0,0,0))
-        self.text_info1 = self.font.render(message,True,(0,0,0))
-        self.text_rect1 = self.text1.get_rect()
-        self.text_rect1.center =(self.HALF_SCREEEN_WIDTH, self.HALF_SCREEEN_HEIGHT)
 
     def handle_events_on_menu(self,game):
         for event in pygame.event.get():
@@ -45,12 +40,6 @@ class Menu:
         self.text = self.font.render(message,True,color)
         self.text_rect = self.text.get_rect()
         self.text_rect.center =(self.HALF_SCREEEN_WIDTH, self.HALF_SCREEEN_HEIGHT - 250)
-
-    def new_message(self, message, font_size,color):
-        self.font1 = pygame.font.Font(FONT_STYLE, font_size)
-        self.text1 = self.font.render(message,True,color)
-        self.text_rect1 = self.text1.get_rect()
-        self.text_rect1.center =(self.HALF_SCREEEN_WIDTH, self.HALF_SCREEEN_HEIGHT - 50)
 
 
 
