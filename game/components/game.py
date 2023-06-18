@@ -117,18 +117,6 @@ class Game:
             self.y_pos_bg = 0
         self.y_pos_bg = self.y_pos_bg + self.game_speed
 
-
-    # def show_death_info(self):
-    #     self.menu_death_info.update_message("Score: {}".format(self.score), 50, (255, 255, 255))
-    #     self.menu_death_info.draw(self.screen)
-    #     pygame.display.update()
-
-    # def add_message(self):
-    #     self.font = pygame.font.Font(FONT_STYLE2, 10)
-    #     self.text = self.font.render("Score: {}".format(self.score),True,(255, 255, 255))
-    #     self.text_rect = self.text.get_rect()
-    #     self.text_rect.center =(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 2 ) - 50)
-
     def show_menu(self):
 
         half_screen_hight = SCREEN_HEIGHT // 2

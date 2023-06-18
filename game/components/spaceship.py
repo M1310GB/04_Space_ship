@@ -18,6 +18,7 @@ class Spaceship(Sprite):
         self.has_power_up = False
         self.power_time_up = 0
         self.power_up_speed_active = False
+        self.power_up_shield_active = False
         self.ship_speed = 10
 
     def shoot(self, bullet_manager):
