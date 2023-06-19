@@ -2,7 +2,7 @@ import pygame
 import random
 from game.components.power_ups.shield import Shield
 from game.components.power_ups.speed_up import Speed
-from game.utils.constants import SPACESHIP_SHIELD, SPACESHIP,FUEL, SPEED_TYPE,SCREEN_WIDTH
+from game.utils.constants import SPACESHIP_SHIELD, SPACESHIP,FUEL, SPEED_TYPE,SCREEN_WIDTH,SPEED_EFFECT,SHIELD_EFFECT
 from game.components.power_ups.power_up import PowerUp
 power_up_speed = Speed() 
 power_up_shield = Shield()
@@ -34,14 +34,13 @@ class PowerUpManager:
         for power_up in self.power_ups:
             power_up.update(game.game_speed, self.power_ups)
 
-
             if game.player.rect.colliderect(power_up) and power_up == power_up_shield:
+                self.power_ups.remove(power_up)
+                SHIELD_EFFECT.play()
                 power_up.start_time = pygame.time.get_ticks()
                 game.player.power_up_shield_active = True
                 game.player.power_time_up = power_up.start_time + (self.duration * 1000)
                 game.player.set_image((110,110), SPACESHIP_SHIELD)
-                self.power_ups.remove(power_up)
-                
                 
                 
             else:
@@ -50,9 +49,10 @@ class PowerUpManager:
                 
 
             if game.player.rect.colliderect(power_up) and power_up == power_up_speed:
+                self.power_ups.remove(power_up)
+                SPEED_EFFECT.play()
                 game.player.power_up_speed_active = True
                 game.player.power_time_up = power_up.start_time + (self.duration * 1000)
-                self.power_ups.remove(power_up)
                 
                 
             else: 

@@ -25,6 +25,7 @@ class Bullet(Sprite):
 
         if self.owner == "player":
             self.rect.y -= self.SPEED
+            
         else:
             self.rect.y += self.SPEED
 

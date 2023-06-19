@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, FONT_STYLE2,BG_DEFEAT, SKULL,SPACEBAR,KEYS
+from game.utils.constants import BG, ICON,PLAYER_DESTROY , SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, FONT_STYLE2,BG_DEFEAT, SKULL,SPACEBAR,KEYS,START_SOUND,MUSIC,DEFEAT_SOUND,SCORE_SOUND
 
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
@@ -57,6 +57,9 @@ class Game:
             self.events()
             self.update()
             self.draw()
+            START_SOUND.stop()
+            DEFEAT_SOUND.stop()
+            #MUSIC.play()
             
     def reset(self):
         
@@ -142,6 +145,9 @@ class Game:
             self.draw_text("To shoot", (half_screen_width + 400, half_screen_hight + 70 ), 20,(255,255,255))
             self.screen.blit(keys, (half_screen_width - 520, half_screen_hight - 100))
             self.screen.blit(spacebar, (half_screen_width + 300, half_screen_hight - 20))
+            START_SOUND.play()
+            DEFEAT_SOUND.stop()
+            MUSIC.stop()
 
             
         else: #pantalla de muerte
@@ -160,6 +166,9 @@ class Game:
             icon = pygame.transform.scale(PLAYER_DESTROY, (300,300))
             skull = pygame.transform.scale(SKULL, (100,100))
             self.screen.blit(skull, (half_screen_width - 45, half_screen_hight - 310 ))
+            MUSIC.stop()
+            START_SOUND.stop()
+            DEFEAT_SOUND.play()
             self.reset()
 
             
@@ -169,6 +178,7 @@ class Game:
 
     def update_score(self):
         self.score +=1
+        SCORE_SOUND.play()
         self.max_high()
 
     def draw_score(self):

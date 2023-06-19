@@ -1,7 +1,7 @@
 import pygame
 import random
 from pygame.sprite import Sprite
-from game.utils.constants import SPACESHIP, SCREEN_HEIGHT, SCREEN_WIDTH, DEFAULT_TYPE
+from game.utils.constants import SPACESHIP, SCREEN_HEIGHT, SCREEN_WIDTH, DEFAULT_TYPE,BULLET_SOUND,SPACESHIP_LEFT,SPACESHIP_SPEED_LEFT,SPACESHIP_SHIELD_LEFT,SPACESHIP_RIGHT,SPACESHIP_SPEED_RIGHT,SPACESHIP_SHIELD_RIGHT,SPACESHIP_SPEED,SPACESHIP_SHIELD
 from game.components.bullets.bullet import Bullet
 
 class Spaceship(Sprite):
@@ -21,6 +21,7 @@ class Spaceship(Sprite):
         self.power_up_shield_active = False
         self.ship_speed = 10
 
+
     def shoot(self, bullet_manager):
         bullet = Bullet(self)
         bullet_manager.add_bullet(bullet)
@@ -31,19 +32,44 @@ class Spaceship(Sprite):
         else:
             self.ship_speed = 10
 
+
+    #MOVIMIENTO A LA IZQUIERDA
         if user_input[pygame.K_LEFT]:
+            game.player.set_image((80,100), SPACESHIP_LEFT)
             self.move_left()
+            if game.player.power_up_speed_active == True:
+                game.player.set_image((90,100), SPACESHIP_SPEED_LEFT)
+            if game.player.power_up_shield_active == True:
+                game.player.set_image((90,100), SPACESHIP_SHIELD_LEFT)
+
+
+    #MOVIMIENTO A LA DERECHA
         elif user_input[pygame.K_RIGHT]:
+            game.player.set_image((80,100), SPACESHIP_RIGHT)
             self.move_right()
-        elif user_input[pygame.K_UP]:
+            if game.player.power_up_speed_active == True:
+                game.player.set_image((80,100), SPACESHIP_SPEED_RIGHT)
+            if game.player.power_up_shield_active == True:
+                game.player.set_image((80,100), SPACESHIP_SHIELD_RIGHT)
+
+    #SPRITE STANDAR CUANDO NO ESTAN MOVIENDOSE A LOS LADOS           
+        else:
+            if game.player.power_up_speed_active == True:
+                game.player.set_image((90,90), SPACESHIP_SPEED)
+            elif game.player.power_up_shield_active == True:
+                game.player.set_image((90,90), SPACESHIP_SHIELD)
+            else:
+                game.player.set_image((90,90), SPACESHIP)
+
+
+
+        if user_input[pygame.K_UP]:
             self.move_up()
-        elif user_input[pygame.K_DOWN]:
+        if user_input[pygame.K_DOWN]:
             self.move_down()
-        elif user_input[pygame.K_SPACE]:
+        if user_input[pygame.K_SPACE]:
             self.shoot(game.bullet_manager)
-
-        
-
+            
             
 
     def move_left(self):
