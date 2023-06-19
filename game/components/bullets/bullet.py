@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
-from game.utils.constants import BULLET_PLAYER, BULLET_ENEMY, SCREEN_HEIGHT
+from game.utils.constants import BULLET_PLAYER, BULLET_ENEMY, SCREEN_HEIGHT,EXPLOSION
 
 class Bullet(Sprite):
     X_POS = 80
@@ -18,6 +18,8 @@ class Bullet(Sprite):
         self.rect.center = spaceship.rect.center
         self.owner = spaceship.type
 
+        
+
 
     def update(self, bullets):
 
@@ -31,3 +33,5 @@ class Bullet(Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
+
+   

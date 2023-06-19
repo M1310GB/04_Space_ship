@@ -1,10 +1,14 @@
 import pygame
-from game.utils.constants import SHIELD_TYPE, SPACESHIP
+from game.utils.constants import SHIELD_TYPE, SPACESHIP,EXPLOSION
 
 class BulletManager:
     def __init__(self):
         self.bullets =  []
         self.enemy_bullets = []
+
+        
+
+
 
     def update(self, game):
 
@@ -26,12 +30,14 @@ class BulletManager:
 
             for enemy in game.enemy_manager.enemies:
                 if bullet.rect.colliderect(enemy.rect)and bullet.owner != "enemy":
+                    
                     game.enemy_manager.enemies.remove(enemy)
                     self.bullets.remove(bullet)
                     game.update_score()
                     break
 
     def draw(self, screen):
+        
 
         for bullet in self.enemy_bullets:
             bullet.draw(screen)
@@ -39,6 +45,7 @@ class BulletManager:
         for bullet in self.bullets:
             bullet.draw(screen)
 
+        
 
     def add_bullet(self, bullet):
         if bullet.owner == "enemy" and len(self.enemy_bullets) < 1:
@@ -49,3 +56,5 @@ class BulletManager:
     def reset(self):
         self.bullets = []
         self.enemy_bullets = []
+
+    

@@ -35,6 +35,9 @@ ENEMY_3 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_3.png"))
 ENEMY_4 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_4.png"))
 ENEMY_5 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_5.png"))
 #ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
+
+EXPLOSION = pygame.image.load(os.path.join(IMG_DIR, "Enemy/explosion.png"))
+
 FONT_STYLE = 'freesansbold.ttf'
 FONT_STYLE2 = 'ARCADE_R.ttf'
 
