@@ -92,7 +92,7 @@ class Game:
         self.enemy_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
         self.draw_score()
-        self.power_up_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen, self)
         self.draw_power_up_time()
 
         pygame.display.update()
@@ -121,7 +121,6 @@ class Game:
         self.y_pos_bg = self.y_pos_bg + self.game_speed
 
     def show_menu(self):
-
         half_screen_hight = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
         
@@ -193,6 +192,13 @@ class Game:
         text =font.render(message,True,color)
         text_rect = text.get_rect()
         text_rect.center = (position)
+        self.screen.blit(text,text_rect)
+
+    def draw_power_up_text(self,message):
+        font = pygame.font.Font(FONT_STYLE2, 30)
+        text =font.render(message,True,(255,255,255))
+        text_rect = text.get_rect()
+        text_rect.center = (163,250)
         self.screen.blit(text,text_rect)
    
 

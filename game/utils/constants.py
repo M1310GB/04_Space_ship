@@ -67,6 +67,7 @@ SPEED_EFFECT = pygame.mixer.Sound("game/assets/Other/speed_effect.mp3")
 SHIELD_EFFECT = pygame.mixer.Sound("game/assets/Other/shield.mp3")
 KILL = pygame.mixer.Sound("game/assets/Other/kill.mp3")
 SCORE_SOUND = pygame.mixer.Sound("game/assets/Other/score.mp3")
+SHIELD_BREAK = pygame.mixer.Sound("game/assets/Other/shield_break.mp3")
 
 BG_DEFEAT = pygame.image.load(os.path.join(IMG_DIR, "Other/soldiers2.png"))
 SKULL = pygame.image.load(os.path.join(IMG_DIR, "Other/skull.png"))

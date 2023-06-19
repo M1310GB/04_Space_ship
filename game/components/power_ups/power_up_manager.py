@@ -2,8 +2,8 @@ import pygame
 import random
 from game.components.power_ups.shield import Shield
 from game.components.power_ups.speed_up import Speed
-from game.utils.constants import SPACESHIP_SHIELD, SPACESHIP,FUEL, SPEED_TYPE,SCREEN_WIDTH,SPEED_EFFECT,SHIELD_EFFECT
-from game.components.power_ups.power_up import PowerUp
+from game.utils.constants import SPACESHIP_SHIELD, SPACESHIP,FUEL, SPEED_TYPE,SCREEN_WIDTH,SPEED_EFFECT,SHIELD_EFFECT,FONT_STYLE2,SCREEN_HEIGHT
+
 power_up_speed = Speed() 
 power_up_shield = Shield()
 
@@ -51,21 +51,34 @@ class PowerUpManager:
             if game.player.rect.colliderect(power_up) and power_up == power_up_speed:
                 self.power_ups.remove(power_up)
                 SPEED_EFFECT.play()
+                power_up.start_time = pygame.time.get_ticks()
                 game.player.power_up_speed_active = True
                 game.player.power_time_up = power_up.start_time + (self.duration * 1000)
                 
                 
             else: 
                 game.player.power_up_speed_active = False
-                
-                
 
         
 
-    def draw(self, screen):
+    def draw(self, screen,game):
         for power_up in self.power_ups:
             power_up.draw(screen)
-        
+
+        if game.player.power_up_speed_active == True:
+            font = pygame.font.Font(FONT_STYLE2, 25)
+            text =font.render("SPEED UP ACTIVATED",True,(255,255,255))
+            text_rect = text.get_rect()
+            text_rect.center = (SCREEN_WIDTH-250,50)
+            game.screen.blit(text,text_rect)
+
+        elif game.player.power_up_shield_active == True:
+            font = pygame.font.Font(FONT_STYLE2, 25)
+            text =font.render("PLASMA SHIELD ACTIVATED",True,(255,255,255))
+            text_rect = text.get_rect()
+            text_rect.center = (SCREEN_WIDTH-250,50)
+            game.screen.blit(text,text_rect)
+
     def reset(self):
         now = pygame.time.get_ticks()
         self.power_ups = []

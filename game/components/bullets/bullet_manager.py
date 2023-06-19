@@ -1,6 +1,6 @@
 import pygame
 import time
-from game.utils.constants import SHIELD_TYPE, SPACESHIP,EXPLOSION,BULLET_SOUND,LASER,KILL
+from game.utils.constants import SHIELD_TYPE, SPACESHIP,EXPLOSION,BULLET_SOUND,LASER,KILL,SHIELD_BREAK
 from game.components.bullets.bullet import Bullet
 
 class BulletManager:
@@ -24,8 +24,11 @@ class BulletManager:
                     game.death_count += 1
                     KILL.play()
                     pygame.time.delay(500)
+                else:
+                    SHIELD_BREAK.play()
                 if game.player.power_time_up == 0:
                             game.player.set_image((90,90), SPACESHIP)
+                            
                 break
 
             for bullet in self.bullets:
